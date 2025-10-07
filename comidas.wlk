@@ -12,6 +12,9 @@ object manzana {
 		madurez = madurez + 1
 		//madurez += 1
 	}
+    method atravesable() {
+        return true
+    }
 
 }
 
@@ -20,6 +23,9 @@ object alpiste {
 	method energiaQueOtorga() {
 		return 20
 	} 
+    method atravesable() {
+        return true
+    }
 
 }
 
