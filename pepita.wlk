@@ -3,25 +3,19 @@ import extras.*
 import game
 
 object ganadora {
-	method nombre() {
-		return "ganadora"
-	}
+
 	method puedeIr(siguientePosicion) {
 		return false
 	}
 }
 object perdedora {
-	method nombre() {
-		return "perdedora"
-	}
+
 	method puedeIr(siguientePosicion) {
 		return false
 	}
 }
 object libre {
-	method nombre() {
-		return "libre"
-	}
+	
 	method puedeIr(siguientePosicion) {
 		return tablero.dentro(siguientePosicion) and game.getObjectsIn(siguientePosicion).all({visual => visual.atravesable() })
 	}
@@ -30,41 +24,44 @@ object libre {
 
 object pepita {
 	var energia = 500
-	
-	const objetivo = nido
-	const perseguidor = silvestre
 
 	var property position = game.origin()
+
+	var property estado = libre
 	
 	method image() {
-		return "pepita-" + self.estado().nombre() + ".png"
-		// if (position == objetivo.position()) {
-		// 	return "pepita-grande.png"
-		// }
-		// else {
-		// 	return "pepita.png"
-		// }
+		return "pepita-" + self.estado() + ".png"
 	}
+
 	method text() {
 		return energia.toString()
 	}
 	method textColor() {
 		return "FF0000FF"
 	}
-	method estado() {
-		if (position == objetivo.position()) {
-			return ganadora
-		}
-		else if (position == perseguidor.position() or not self.puedeVolar(1)) {
-			return perdedora
-		}
-		else {
-			return libre
-		}
+	
+	method ganar() {
+		estado = ganadora
+		self.terminar("gané")
 	}
+	
+	method perder() {
+		estado = perdedora
+		self.terminar("perdí")
+	}
+
+	method terminar(mensaje) {
+		game.say(self, "mensaje")
+		gravedad.detener()
+		game.schedule(2000, {game.stop()})
+	}
+
 
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
+		if (game.hasVisual(comida)){ //lo dejo con un if porque pepita podría comer cosas que no están en el tablero, por ejemplo en los tests
+			game.removeVisual(comida)
+		}
 	}
 
 	method validarVolar(distancia){
@@ -116,6 +113,11 @@ object pepita {
 		//para pensar: por que acá hago un if e ignoro mientras que en el mover valido y rompo?
 		if (self.puedeIr(siguiente)) {
 			position = siguiente
+		}
+		else{
+			if (not self.puedeVolar(1)) { //Si no pudo caer y no puede volar más, entonces perdió
+				self.perder()
+			}
 		}
 	}
 

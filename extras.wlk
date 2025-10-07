@@ -7,7 +7,12 @@ object nido {
         return true
     }
 
+    method colision(personaje) {
+		personaje.ganar()
+	}
+
 }
+
 object silvestre {
     const presa = pepita
 
@@ -20,6 +25,10 @@ object silvestre {
     method atravesable() {
         return true
     }
+
+    method colision(personaje) {
+		personaje.perder()
+	}
 
 
 
