@@ -1,6 +1,7 @@
 import direcciones.*
 import extras.*
 import game
+import comidas.*
 
 object ganadora {
 
@@ -14,6 +15,8 @@ object perdedora {
 		return false
 	}
 }
+
+
 object libre {
 	
 	method puedeIr(siguientePosicion) {
@@ -59,9 +62,8 @@ object pepita {
 
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
-		if (game.hasVisual(comida)){ //lo dejo con un if porque pepita podría comer cosas que no están en el tablero, por ejemplo en los tests
-			game.removeVisual(comida)
-		}
+		comidas.remover(comida)
+		
 	}
 
 	method validarVolar(distancia){
@@ -77,6 +79,9 @@ object pepita {
 	
 	method energia() {
 		return energia
+	}
+	method energia(_energia) {
+		energia = _energia
 	}
 
 	method energiaQueGasta(distancia) {

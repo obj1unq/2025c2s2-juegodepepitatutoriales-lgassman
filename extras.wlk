@@ -1,6 +1,6 @@
 import pepita.*
 object nido {
-    method position() = game.at(5,5)
+    var property position = game.at(5,5)
     method image() = "nido.png"
 
     method atravesable() {
@@ -19,7 +19,7 @@ object silvestre {
     method image() = "silvestre.png"
 
     method position() {
-        return game.at( pepita.position().x().max(3), 0 )
+        return game.at( presa.position().x().max(3), 0 )
     }
 
     method atravesable() {
@@ -54,10 +54,9 @@ object gravedad {
     }
 }
 
-object muro {
-    method position() {
-        return game.at(5,6)
-    } 
+class Muro {
+    const property position
+
     method  image() {
         return "muro.png"
     }

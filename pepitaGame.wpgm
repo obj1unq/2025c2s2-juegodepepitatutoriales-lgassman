@@ -3,20 +3,14 @@ import pepita.*
 import extras.*
 import direcciones.*
 import comidas.*
+import mapa.*
 
 program pepitaGame {
+	
 	game.title("Pepita") 	//Valor por defecto "Wollok Game"
-	game.height(10) 		//valor por defecto 5
-	game.width(10) 			//valor por defecto 5
 	game.cellSize(50) 		//valor por defecto 50
-	//search assets in assets folder, for example, for the background
-	//Valor por defecto game.ground("ground.png")
-	game.addVisual(nido)
-	game.addVisual(silvestre)
-	game.addVisual(muro)
-	game.addVisual(manzana)
-	game.addVisual(alpiste)
-	game.addVisual(pepita)
+	
+	mapa.construir()
 
 	keyboard.left().onPressDo({pepita.mover(izquierda)})
 	keyboard.right().onPressDo({pepita.mover(derecha)})
@@ -25,7 +19,11 @@ program pepitaGame {
 	
 	gravedad.agregar(pepita)
 	gravedad.comenzar()
+	
+	comidas.comenzar()
+
 	game.onCollideDo(pepita, {algo => algo.colision(pepita)})
+
 	
 	game.start()	
 }
